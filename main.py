@@ -40,7 +40,22 @@ class Game:
         self.__player = 1
     
     def player_turn(self) -> int:
-        pass
+        '''function moderates the turns each player takes & checks winning condition after each turn'''
+        if self.num_player == 2:
+            self.b.show_board
+            column = input("In which column do you want to place your coin?")
+
+            
+            if self.b.place_coin(column = column, player = self.__player) == True:
+                if self.b.check_win(player = self.__player) == True:
+                    break
+                else:
+                    self.__player = 2
+
+
+        elif self.num_player == 1:
+            pass
+
 
             
 
