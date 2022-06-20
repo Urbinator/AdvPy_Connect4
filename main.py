@@ -1,5 +1,6 @@
 # connect4.py
 
+print("test")
 import numpy as np
 
 class Board:
