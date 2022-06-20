@@ -76,25 +76,12 @@ class Game:
 
 if __name__ == "__main__":
 
-<<<<<<< HEAD
-    x = Board()
-    x.show_self.__container()
-
-
-
-   
-    '''    while True:
-            g = Game('input')
-            while True:
-                g.make_a_move()
-=======
     print("\n\n\nWelcome to CONNECT 4\n")
     
     while True:
         g = Game(int(input('Select number of players: ')))
         while True:
             g.player_turn()
->>>>>>> ebf67bbacc24928bafb566ade8685683db991630
         
         new_game = input("Play again? ").lower()
         if new_game == 'yes':
