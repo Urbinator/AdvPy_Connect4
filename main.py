@@ -1,7 +1,11 @@
 # connect4.py
 
 import numpy as np
+<<<<<<< HEAD
 print('something')
+=======
+print('hello world')
+>>>>>>> 59a7f897538ac7aba1339c905de3015fbbf5caf0
 class Board:
     def __init__(self) -> None:
         self.__container = np.zeros(2,6,7)
