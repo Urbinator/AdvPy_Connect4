@@ -15,6 +15,7 @@ class Board:
             return True
 
     def check_win(self, player: int) -> int:
+        '''This function evaluates whether a move ends the game (either winning/draw)'''
         # Check horizontal locations for win
         for c in range(7-3):
             for r in range(6):
