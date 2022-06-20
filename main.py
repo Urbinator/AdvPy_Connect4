@@ -1,10 +1,11 @@
 # connect4.py
 
 import numpy as np
-
+print('hello world')
 class Board:
     def __init__(self) -> None:
         self.__container = np.array(7,6)
+        
 
     def __is_full(self, location: int) -> bool:
         '''
