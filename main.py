@@ -7,11 +7,12 @@ class Board:
         self.__container = np.zeros((6,7))
         
 
-    def __is_full(self, location: int) -> bool:
+    def __is_full(self, column: int) -> bool:
         '''
-        check if the move is allowed
+        check if the move is allowed, i.e. the column is not full
         '''
-        pass
+        if self.__container[0,column] == 0:
+            return True
 
     def check_win(self, player: int) -> int:
         # Check horizontal locations for win
@@ -49,8 +50,17 @@ class Board:
         print(self.__container)
         
 
-    def position_coin(self, location: int, player: int) -> bool:
-        pass
+    def position_coin(self, column: int, player: int) -> bool:
+        res = self.__is_full(column)
+        if res:
+            for row in reversed(range(len(self.__container[:,column]))):
+                if self.__container[row,column] == 0:
+                    break
+            self.__container[row,column] = player
+            return res
+        else:
+            print('The column is full -> Select another one')
+            return False
        
         
 class Game:
@@ -62,12 +72,11 @@ class Game:
     def player_turn(self) -> int:
         pass
 
-            
-
     
 
 if __name__ == "__main__":
 
+<<<<<<< HEAD
     x = Board()
     x.show_self.__container()
 
@@ -78,11 +87,19 @@ if __name__ == "__main__":
             g = Game('input')
             while True:
                 g.make_a_move()
+=======
+    print("\n\n\nWelcome to CONNECT 4\n")
+    
+    while True:
+        g = Game(int(input('Select number of players: ')))
+        while True:
+            g.player_turn()
+>>>>>>> ebf67bbacc24928bafb566ade8685683db991630
         
-            new_game = input("Play again? ").lower()
-            if new_game == 'yes':
-                print("\n-------------------------\nNEW GAME")
-                continue
-            elif new_game == 'no':
-                print("\n-------------------------\n\nTHANKS FOR PLAYING\n")
-                break'''
+        new_game = input("Play again? ").lower()
+        if new_game == 'yes':
+            print("\n-------------------------\nNEW GAME")
+            continue
+        elif new_game == 'no':
+            print("\n-------------------------\n\nTHANKS FOR PLAYING\n")
+            break
