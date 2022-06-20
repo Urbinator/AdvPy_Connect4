@@ -2,6 +2,7 @@
 
 import numpy as np
 print('hello world')
+print('hello world 2')
 class Board:
     def __init__(self) -> None:
         self.__container = np.zeros(2,6,7)
