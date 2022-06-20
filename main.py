@@ -10,18 +10,21 @@ class Board:
         '''
         check if the move is allowed
         '''
-        
+        pass
 
     def check_win(self, player: int) -> int:
         '''
         Check if a player won
         '''
+        pass
         
 
-    def show_board(self) -> list:
+    def show_board(self):
+        print(self.__container)
         
 
     def position_coin(self, location: int, player: int) -> bool:
+        pass
        
         
 class Game:
@@ -31,7 +34,7 @@ class Game:
         self.__player = 1
     
     def player_turn(self) -> int:
-        
+        pass
 
             
 
@@ -39,16 +42,21 @@ class Game:
 
 if __name__ == "__main__":
 
+    x = Board()
+    x.show_board()
+
+
+
    
-    while True:
-        g = Game('input')
-        while True:
-            g.make_a_move()
-    
-        new_game = input("Play again? ").lower()
-        if new_game == 'yes':
-            print("\n-------------------------\nNEW GAME")
-            continue
-        elif new_game == 'no':
-            print("\n-------------------------\n\nTHANKS FOR PLAYING\n")
-            break
+    '''    while True:
+            g = Game('input')
+            while True:
+                g.make_a_move()
+        
+            new_game = input("Play again? ").lower()
+            if new_game == 'yes':
+                print("\n-------------------------\nNEW GAME")
+                continue
+            elif new_game == 'no':
+                print("\n-------------------------\n\nTHANKS FOR PLAYING\n")
+                break'''
