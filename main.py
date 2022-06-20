@@ -117,7 +117,7 @@ if __name__ == "__main__":
             if g.player_turn():
                 break
         
-        new_game = input("Play again? ").lower()
+        new_game = input("Play again? (yes,no)").lower()
         if new_game == 'yes':
             print("\n-------------------------\nNEW GAME")
             continue
