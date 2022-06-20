@@ -2,13 +2,9 @@
 
 import numpy as np
 
-print('something')
-print('hello world')
-print('hello world 2')
-
 class Board:
     def __init__(self) -> None:
-        self.__container = np.zeros(2,6,7)
+        self.__container = np.zeros((6,7))
         
 
     def __is_full(self, location: int) -> bool:
@@ -18,10 +14,35 @@ class Board:
         pass
 
     def check_win(self, player: int) -> int:
-        '''
-        Check if a player won
-        '''
-        pass
+        # Check horizontal locations for win
+        for c in range(7-3):
+            for r in range(6):
+                if self.__container[r][c] == self.__container[r][c+1] == self.__container[r][c+2] == self.__container[r][c+3] == player
+                    return player        
+                
+        # Check for vertical win
+        for c in range(7):
+            for r in range(6-3):
+                if self.__container[r][c] == self.__container[r+1][c] == self.__container[r+2][c] == self.__container[r+3][c] == player:## self.__container==self.__container==player
+                    return player
+                
+        # Check for decreasing diagonal win (slope <0)
+        for c in range(7-3):
+            for r in range(6-3):
+                if self.__container[r][c] == self.__container[r+1][c+1] == self.__container[r+2][c+2] == self.__container[r+3][c+3] == player:
+                    return player
+                
+        # Check for increasing diagonal win (slope >0)
+        for c in range(7-3):
+            for r in range(3,6):
+                if self.__container[r][c] == self.__container[r-1][c+1] == self.__container[r-2][c+2] == self.__container[r-3][c+3] == player:
+                    return player
+        
+        # Check if draw
+        if np.all(self.__container):
+            return 3
+        
+        return 0
         
 
     def show_board(self):
@@ -48,7 +69,7 @@ class Game:
 if __name__ == "__main__":
 
     x = Board()
-    x.show_board()
+    x.show_self.__container()
 
 
 
