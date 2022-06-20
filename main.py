@@ -72,16 +72,21 @@ class Game:
     def player_turn(self) -> int:
         '''function moderates the turns each player takes & checks winning condition after each turn'''
         if self.num_player == 2:
-            self.b.show_board
-            column = input("In which column do you want to place your coin?")
-
-            
-            if self.b.place_coin(column = column, player = self.__player) == True:
-                if self.b.check_win(player = self.__player) == True:
-                    break
+            self.b.show_board()
+            column = int(input("\nPLAYER {}: In which column do you want to place your coin? ".format(self.__player)))
+            res = self.b.position_coin(column,self.__player)
+            if res == True:
+                if self.b.check_win(self.__player) == self.__player:
+                    print('CONGRATS! Player {} won'.format(self.__player))
+                    return True
+                elif self.b.check_win(self.__player) == 3:
+                    print('DRAW')
+                    return True
                 else:
-                    self.__player = 2
-
+                    if self.__player == 1:
+                        self.__player = 2
+                    else:
+                        self.__player = 1
 
         elif self.num_player == 1:
             pass
@@ -96,7 +101,8 @@ if __name__ == "__main__":
     while True:
         g = Game(int(input('Select number of players: ')))
         while True:
-            g.player_turn()
+            if g.player_turn():
+                break
         
         new_game = input("Play again? ").lower()
         if new_game == 'yes':
