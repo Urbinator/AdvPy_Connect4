@@ -18,8 +18,8 @@ class Board:
         # Check horizontal locations for win
         for c in range(7-3):
             for r in range(6):
-                if self.__container[r][c] == self.__container[r][c+1] == self.__container[r][c+2] == self.__container[r][c+3] == player
-                    return player        
+                if self.__container[r][c] == self.__container[r][c+1] == self.__container[r][c+2] == self.__container[r][c+3] == player:
+                    return player 
                 
         # Check for vertical win
         for c in range(7):
