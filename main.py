@@ -7,9 +7,11 @@ class Board:
         self.__container = np.zeros((6,7))
         
 
-    def __is_full(self, column: int) -> bool:
+    def __is_not_full(self, column: int) -> bool:
         '''
-        check if the move is allowed, i.e. the column is not full
+        This function checks if the move is allowed, i.e. the column is not full
+            column: an int from 0 to 5 representing the column where to check if is not full
+            returns: True if the move is allowed
         '''
         if self.__container[0,column] == 0:
             return True
@@ -48,11 +50,21 @@ class Board:
         
 
     def show_board(self):
+        '''
+        This function prints the current state of the board
+        '''
         print(self.__container)
         
 
     def position_coin(self, column: int, player: int) -> bool:
-        res = self.__is_full(column)
+        '''
+        This function check if a move is allowed and place the coin in the selected column.
+        In the selected column it check from the bottom which is the first empty place to place it.
+            column: an int from 0 to 5 representing the column where to place the coin
+            player: an int (0 or 1) representing the current player making the move
+            returns: True if the move was allowed and the board is updated, False if the move was not allowed
+        '''
+        res = self.__is_not_full(column)
         if res:
             for row in reversed(range(len(self.__container[:,column]))):
                 if self.__container[row,column] == 0:
