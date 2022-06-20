@@ -15,10 +15,35 @@ class Board:
             return True
 
     def check_win(self, player: int) -> int:
-        '''
-        Check if a player won
-        '''
-        pass
+        # Check horizontal locations for win
+        for c in range(7-3):
+            for r in range(6):
+                if self.__container[r][c] == self.__container[r][c+1] == self.__container[r][c+2] == self.__container[r][c+3] == player
+                    return player        
+                
+        # Check for vertical win
+        for c in range(7):
+            for r in range(6-3):
+                if self.__container[r][c] == self.__container[r+1][c] == self.__container[r+2][c] == self.__container[r+3][c] == player:## self.__container==self.__container==player
+                    return player
+                
+        # Check for decreasing diagonal win (slope <0)
+        for c in range(7-3):
+            for r in range(6-3):
+                if self.__container[r][c] == self.__container[r+1][c+1] == self.__container[r+2][c+2] == self.__container[r+3][c+3] == player:
+                    return player
+                
+        # Check for increasing diagonal win (slope >0)
+        for c in range(7-3):
+            for r in range(3,6):
+                if self.__container[r][c] == self.__container[r-1][c+1] == self.__container[r-2][c+2] == self.__container[r-3][c+3] == player:
+                    return player
+        
+        # Check if draw
+        if np.all(self.__container):
+            return 3
+        
+        return 0
         
 
     def show_board(self):
@@ -51,12 +76,25 @@ class Game:
 
 if __name__ == "__main__":
 
+<<<<<<< HEAD
+    x = Board()
+    x.show_self.__container()
+
+
+
+   
+    '''    while True:
+            g = Game('input')
+            while True:
+                g.make_a_move()
+=======
     print("\n\n\nWelcome to CONNECT 4\n")
     
     while True:
         g = Game(int(input('Select number of players: ')))
         while True:
             g.player_turn()
+>>>>>>> ebf67bbacc24928bafb566ade8685683db991630
         
         new_game = input("Play again? ").lower()
         if new_game == 'yes':
