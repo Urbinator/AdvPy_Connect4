@@ -36,14 +36,14 @@ class Board:
         else:
             print('The column is full -> Select another one')
             return False
-       
-        
+
+
 class Game:
     def __init__(self, num_player: int):
         self.b = Board()
         self.num_player = num_player
         self.__player = 1
-    
+
     def player_turn(self) -> int:
         pass
 
