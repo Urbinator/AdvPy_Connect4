@@ -25,7 +25,7 @@ def draw_board(board):
     for c in range(num_columns):
         for r in range(num_rows):
             pygame.draw.rect(screen, BLUE, (c*SQUARESIZE, r*SQUARESIZE, SQUARESIZE, SQUARESIZE)) # (board, color, position, size)
-            
+
             
    
     for event in pygame.event.get():

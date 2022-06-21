@@ -107,11 +107,23 @@ class Game:
         elif self.num_player == 1:
             pass
 
+class Interface:
+    BLUE = (0, 0, 255)
+    BLACK = (0, 0, 0)
+    RED = (255, 0, 0)
+    YELLOW = (255, 255, 0)
 
+    ROW_COUNT = 6
+    COLUMN_COUNT = 7
+    SQUARESIZE = 100
+
+    width = COLUMN_COUNT * SQUARESIZE
+    height = (ROW_COUNT + 1) * SQUARESIZE
+
+    size = (width, height)
     
 
 if __name__ == "__main__":
-    pygame.init()
 
     print("\n\n\nWelcome to CONNECT 4\n")
     
