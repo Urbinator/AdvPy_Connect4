@@ -2,7 +2,7 @@
 
 import numpy as np
 import pygame 
-
+print('test')
 ## Come global variables
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
