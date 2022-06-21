@@ -1,6 +1,8 @@
 # connect4.py
 
 import numpy as np
+import pygame 
+
 
 class Board:
     def __init__(self) -> None:
@@ -29,7 +31,7 @@ class Board:
             for row in reversed(range(len(self.__container[:,column]))):
                 if self.__container[row,column] == 0:
                     break
-            self.__container[row,column] = player
+            self.__container[row,column] = player ## Here the coin is inserted
             return res
         else:
             print('The column is full -> Select another one')
@@ -72,7 +74,9 @@ class Board:
         '''
         This function prints the current state of the board
         '''
+        index = [0,1,2,3,4,5,6]
         print(self.__container)
+        print('  0, 1, 2, 3, 4, 5, 6')
 
 
 class Game:
