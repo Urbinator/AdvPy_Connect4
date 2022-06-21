@@ -76,7 +76,7 @@ class Board:
         '''
         index = [0,1,2,3,4,5,6]
         print(self.__container)
-        print('  0, 1, 2, 3, 4, 5, 6')
+        print('  0 1  2  3  4  5  6')
 
 
 class Game:
@@ -111,6 +111,7 @@ class Game:
     
 
 if __name__ == "__main__":
+    pygame.init()
 
     print("\n\n\nWelcome to CONNECT 4\n")
     
