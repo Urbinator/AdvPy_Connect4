@@ -3,6 +3,15 @@
 import numpy as np
 import pygame 
 
+## Come global variables
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
+
+num_columns = 7
+num_rows = 6
+SQUARESIZE = 100
 
 class Board:
     def __init__(self) -> None:
@@ -74,7 +83,6 @@ class Board:
         '''
         This function prints the current state of the board
         '''
-        index = [0,1,2,3,4,5,6]
         print(self.__container)
         print('  0 1  2  3  4  5  6')
 
@@ -106,21 +114,6 @@ class Game:
 
         elif self.num_player == 1:
             pass
-
-class Interface:
-    BLUE = (0, 0, 255)
-    BLACK = (0, 0, 0)
-    RED = (255, 0, 0)
-    YELLOW = (255, 255, 0)
-
-    ROW_COUNT = 6
-    COLUMN_COUNT = 7
-    SQUARESIZE = 100
-
-    width = COLUMN_COUNT * SQUARESIZE
-    height = (ROW_COUNT + 1) * SQUARESIZE
-
-    size = (width, height)
     
 
 if __name__ == "__main__":
