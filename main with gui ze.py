@@ -18,25 +18,28 @@ height = (num_rows + 1) * SQUARESIZE
 
 size = (width, height)
 
+
 class Connect4:
     def __init__(self):
         pygame.init()
-        pygame.display.set_caption('CONNECT4')
+        pygame.display.set_caption('CONNECT 4')
         self.screen = pygame.display.set_mode(size)
         self.__container = self.create_board()
         self.turn = 0
         self.myfont = pygame.font.SysFont("monospace", 75)
         self.game_over = False
+
     def create_board(self):
         # board = np.zeros((ROWS, COLLUMNS))
         self.__container = np.zeros((6, 7))
- 
+
         return self.__container
-    
+
     def draw_board(self):
         for c in range(num_columns):
             for r in range(num_rows):
-                pygame.draw.rect(self.screen, BLUE, (c * SQUARESIZE, r * SQUARESIZE + SQUARESIZE, SQUARESIZE, SQUARESIZE))
+                pygame.draw.rect(self.screen, BLUE,
+                                 (c * SQUARESIZE, r * SQUARESIZE + SQUARESIZE, SQUARESIZE, SQUARESIZE))
                 pygame.draw.circle(self.screen, BLACK, (
                     int(c * SQUARESIZE + SQUARESIZE / 2), int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)), RADIUS)
 
@@ -44,17 +47,21 @@ class Connect4:
             for r in range(num_rows):
                 if self.__container[r][c] == 1:
                     pygame.draw.circle(self.screen, RED, (
-                        int(c * SQUARESIZE + SQUARESIZE / 2), int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)), RADIUS)
+                        int(c * SQUARESIZE + SQUARESIZE / 2), int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)),
+                                       RADIUS)
                 elif self.__container[r][c] == 2:
                     pygame.draw.circle(self.screen, YELLOW, (
-                        int(c * SQUARESIZE + SQUARESIZE / 2),  int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)), RADIUS)
+                        int(c * SQUARESIZE + SQUARESIZE / 2), int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)),
+                                       RADIUS)
         pygame.display.update()
+
     def print_board(self):
         '''
         This function prints the current state of the board
         '''
         print(self.__container)
-        #print('  0 1  2  3  4  5  6')
+        # print('  0 1  2  3  4  5  6')
+
     def __is_not_full(self, column: int) -> bool:
         '''
         This function checks if the move is allowed, i.e. the column is not full
@@ -74,10 +81,10 @@ class Connect4:
         '''
         res = self.__is_not_full(column)
         if res:
-            for row in reversed(range(len(self.__container[:,column]))):
-                if self.__container[row,column] == 0:
+            for row in reversed(range(len(self.__container[:, column]))):
+                if self.__container[row, column] == 0:
                     break
-            self.__container[row,column] = player ## Here the coin is inserted
+            self.__container[row, column] = player  ## Here the coin is inserted
             return res
         else:
             print('The column is full -> Select another one')
@@ -120,12 +127,16 @@ class Connect4:
         return 0
 
     def event_handler(self):
+        '''handles the UI by iterating through every event in pygame window
+        MOUSEMOTION - handles the coin hovering above the board before being played
+        MOUSEBUTTONDOWN - handles playing the coin on the board
+        Checks for winning move using check_win'''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
             if event.type == pygame.MOUSEMOTION:
-                self.update_board(event)
+                self.draw_coin(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
@@ -135,18 +146,26 @@ class Connect4:
                     posx = event.pos[0]
                     col = int(math.floor(posx / SQUARESIZE))
 
-                    if self.position_coin(col,1):
+                    if self.position_coin(col, 1):
 
                         if self.check_win(1) == 1:
                             label = self.myfont.render("Player 1 wins!!", 1, RED)
                             self.screen.blit(label, (40, 10))
                             self.game_over = True
+                        if self.check_win(1) == 3:
+                            label = self.myfont.render("It's a Draw!!", 1, BLUE)
+                            self.screen.blit(label, (40, 10))
+                            self.game_over = True
                 else:
                     posx = event.pos[0]
-                    col = int(math.floor(posx/SQUARESIZE))
-                    if self.position_coin(col,2):
+                    col = int(math.floor(posx / SQUARESIZE))
+                    if self.position_coin(col, 2):
                         if self.check_win(2) == 2:
-                            label = self.myfont.render("Player 2 wins!!", 1, RED)
+                            label = self.myfont.render("Player 2 wins!!", 1, YELLOW)
+                            self.screen.blit(label, (40, 10))
+                            self.game_over = True
+                        if self.check_win(1) == 3:
+                            label = self.myfont.render("It's a Draw!!", 1, RED)
                             self.screen.blit(label, (40, 10))
                             self.game_over = True
                 self.print_board()
@@ -157,8 +176,7 @@ class Connect4:
             if self.game_over:
                 pygame.time.wait(3000)
 
-
-    def update_board(self,event):
+    def draw_coin(self, event):
         pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
         posx = event.pos[0]
         if self.turn == 0:
