@@ -2,7 +2,7 @@ import numpy as np
 import pygame
 from time import sleep
 import math
-
+#GLOBAL VARIABLES
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
@@ -15,9 +15,8 @@ RADIUS = int(SQUARESIZE / 2 - 5)
 
 width = num_columns * SQUARESIZE
 height = (num_rows + 1) * SQUARESIZE
-
 size = (width, height)
-
+#GLOBAL VARIABLES END
 
 class Connect4:
     def __init__(self):
