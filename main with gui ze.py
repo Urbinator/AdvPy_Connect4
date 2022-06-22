@@ -26,7 +26,7 @@ class Connect4:
         self.screen = pygame.display.set_mode(size)
         self.__container = self.create_board()
         self.turn = 0
-        self.myfont = pygame.font.SysFont("monospace", 75)
+        self.myfont = pygame.font.SysFont("comicsansms", 75)
         self.game_over = False
 
     def create_board(self):
@@ -36,6 +36,7 @@ class Connect4:
         return self.__container
 
     def draw_board(self):
+        '''Draws Empty Board using rectangles and circles'''
         for c in range(num_columns):
             for r in range(num_rows):
                 pygame.draw.rect(self.screen, BLUE,
@@ -140,7 +141,6 @@ class Connect4:
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
-                # print(event.pos)
                 # Ask for Player 1 Input
                 if self.turn == 0:
                     posx = event.pos[0]
@@ -150,23 +150,24 @@ class Connect4:
 
                         if self.check_win(1) == 1:
                             label = self.myfont.render("Player 1 wins!!", 1, RED)
-                            self.screen.blit(label, (40, 10))
+                            self.screen.blit(label, (110,0))
                             self.game_over = True
                         if self.check_win(1) == 3:
                             label = self.myfont.render("It's a Draw!!", 1, BLUE)
-                            self.screen.blit(label, (40, 10))
+                            self.screen.blit(label, (110,0))
                             self.game_over = True
                 else:
+                # Ask for Player 2 Input
                     posx = event.pos[0]
                     col = int(math.floor(posx / SQUARESIZE))
                     if self.position_coin(col, 2):
                         if self.check_win(2) == 2:
                             label = self.myfont.render("Player 2 wins!!", 1, YELLOW)
-                            self.screen.blit(label, (40, 10))
+                            self.screen.blit(label, (110,0))
                             self.game_over = True
                         if self.check_win(1) == 3:
                             label = self.myfont.render("It's a Draw!!", 1, RED)
-                            self.screen.blit(label, (40, 10))
+                            self.screen.blit(label, (110,0))
                             self.game_over = True
                 self.print_board()
 
