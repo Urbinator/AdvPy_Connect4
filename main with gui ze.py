@@ -20,6 +20,15 @@ size = (width, height)
 
 class Connect4:
     def __init__(self):
+        '''
+        Initialize:
+            pygame: with a title "CONEECT 4"
+            screen: A UI screen for the users to interact upon
+            __container: a hidden parameter that contains the up to date values of the game.
+            turn: sets turn to 0
+            myfont: defines UI font and font size
+            game_over: initialy set to False
+        '''
         pygame.init()
         pygame.display.set_caption('CONNECT 4')
         self.screen = pygame.display.set_mode(size)
@@ -29,13 +38,14 @@ class Connect4:
         self.game_over = False
 
     def create_board(self):
+        '''This function creates an empty Connect 4 matrix with zeros.'''
         # board = np.zeros((ROWS, COLLUMNS))
         self.__container = np.zeros((6, 7))
 
         return self.__container
 
     def draw_board(self):
-        '''Draws Empty Board using rectangles and circles'''
+        '''Draws empty board using rectangles and circles'''
         for c in range(num_columns):
             for r in range(num_rows):
                 pygame.draw.rect(self.screen, BLUE,
@@ -99,7 +109,7 @@ class Connect4:
                         self.__container[r][c + 3] == player:
                     return player
 
-                    # Check for vertical win
+        # Check for vertical win
         for c in range(7):
             for r in range(6 - 3):
                 if self.__container[r][c] == self.__container[r + 1][c] == self.__container[r + 2][c] == \
@@ -177,6 +187,9 @@ class Connect4:
                 pygame.time.wait(3000)
 
     def draw_coin(self, event):
+        ''' Creates a new coin for the next player to use. 
+        Player 1 receives a red coin. Player 2 receives a yellow coin. 
+        '''
         pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
         posx = event.pos[0]
         if self.turn == 0:
@@ -186,6 +199,7 @@ class Connect4:
         pygame.display.update()
 
     def gameloop(self):
+        '''A loop that lets the players continue to make their next move and updates the board until the game is over.'''
         while not self.game_over:
             self.event_handler()
             pygame.display.update()
