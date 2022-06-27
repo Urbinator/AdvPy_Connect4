@@ -1,8 +1,6 @@
 # connect4.py
 
-from secrets import randbelow
 import numpy as np
-from torch import rand
 
 class Board:
     def __init__(self) -> None:
@@ -17,6 +15,25 @@ class Board:
         '''
         if self.__container[0,column] == 0:
             return True
+    
+    def position_coin(self, column: int, player: int) -> bool:
+        '''
+        This function check if a move is allowed and place the coin in the selected column.
+        In the selected column it check from the bottom which is the first empty place to place it.
+            column: an int from 0 to 5 representing the column where to place the coin
+            player: an int (0 or 1) representing the current player making the move
+            returns: True if the move was allowed and the board is updated, False if the move was not allowed
+        '''
+        res = self.__is_not_full(column)
+        if res:
+            for row in reversed(range(len(self.__container[:,column]))):
+                if self.__container[row,column] == 0:
+                    break
+            self.__container[row,column] = player ## Here the coin is inserted
+            return res
+        else:
+            print('The column is full -> Select another one')
+            return False
 
     def check_win(self, player: int) -> int:
         '''This function evaluates whether a move ends the game (either winning/draw)'''
@@ -195,8 +212,6 @@ class Game:
     
 
 if __name__ == "__main__":
-
-    #FIXME create new class bot in the execution, not inside game
     
     print("\n\n\nWelcome to CONNECT 4\n")
     
