@@ -25,6 +25,7 @@ import numpy as np
 import pygame
 from time import sleep
 import math
+
 #GLOBAL VARIABLES
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
@@ -204,14 +205,14 @@ class Connect4:
                 exit()
             if event.type == pygame.MOUSEMOTION:
                 self.draw_coin(event)
-
+            print('pre eevent type')
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
-                
+                print('before player move')
                 if self.turn == 0:
-                # Ask for Player 1 Input
+                # Ask for Player 1 Input 
                     posx = event.pos[0]
-                    col = int(math.floor(posx / SQUARESIZE))
+                    col = int(math.floor(posx / SQUARESIZE)) 
                     if self.place_coin(col, 1):
                         if self.check_win(1) == 1:
                             label = self.myfont.render("Player 1 wins!!", 1, RED)
@@ -221,6 +222,8 @@ class Connect4:
                             label = self.myfont.render("It's a Draw!!", 1, BLUE)
                             self.screen.blit(label, (110,0))
                             self.game_over = True
+                    else:
+                        break
                 else:
                     # Ask for Player 2 Input
                     posx = event.pos[0]
@@ -234,6 +237,8 @@ class Connect4:
                             label = self.myfont.render("It's a Draw!!", 1, RED)
                             self.screen.blit(label, (110,0))
                             self.game_over = True
+                    else:
+                        break
                     
                 self.print_current_board()
                 
@@ -241,19 +246,22 @@ class Connect4:
                     self.turn += 1
                     self.turn = self.turn % 2
                 else:
-                    # Bot input
-                    bot = Bot()
-                    bot.set_difficulty('moderate')
-                    col = bot.bot_move(self.__container)
-                    if self.place_coin(col,2):
-                        if self.check_win(2) == 2:
-                            label = self.myfont.render("Player 2 wins!!", 1, YELLOW)
-                            self.screen.blit(label, (110,0))
-                            self.game_over = True
-                        if self.check_win(1) == 3:
-                            label = self.myfont.render("It's a Draw!!", 1, RED)
-                            self.screen.blit(label, (110,0))
-                            self.game_over = True
+                    if not self.game_over: 
+                        print('before bot move')
+                        # Bot input
+                        bot = Bot()
+                        bot.set_difficulty('moderate')
+                        col = bot.bot_move(self.__container)
+                        if self.place_coin(col,2):
+                            if self.check_win(2) == 2:
+                                label = self.myfont.render("Player 2 wins!!", 1, YELLOW)
+                                self.screen.blit(label, (110,0))
+                                self.game_over = True
+                            if self.check_win(1) == 3:
+                                label = self.myfont.render("It's a Draw!!", 1, RED)
+                                self.screen.blit(label, (110,0))
+                                self.game_over = True
+            print('end of turn')            
             self.draw_board()
             if self.game_over: 
                 pygame.time.wait(3000)
