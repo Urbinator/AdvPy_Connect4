@@ -25,6 +25,7 @@ import numpy as np
 import pygame
 from time import sleep
 import math
+
 #GLOBAL VARIABLES
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
@@ -72,7 +73,7 @@ class Connect4:
         loops through event_handler() until winning condition is met
 
     '''
-    def __init__(self):
+    def __init__(self,num_players):
         '''
         Initialization function
             pygame: with a title "CONEECT 4"
@@ -91,6 +92,7 @@ class Connect4:
         self.turn = 0
         self.myfont = pygame.font.SysFont("comicsansms", 75)
         self.game_over = False
+        self.num_players = num_players
 
     def create_board(self):
         '''This function creates an empty Connect 4 matrix with zeros.'''
@@ -203,17 +205,15 @@ class Connect4:
                 exit()
             if event.type == pygame.MOUSEMOTION:
                 self.draw_coin(event)
-
+            print('pre eevent type')
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
-                
+                print('before player move')
                 if self.turn == 0:
-                # Ask for Player 1 Input
+                # Ask for Player 1 Input 
                     posx = event.pos[0]
-                    col = int(math.floor(posx / SQUARESIZE))
-
+                    col = int(math.floor(posx / SQUARESIZE)) 
                     if self.place_coin(col, 1):
-
                         if self.check_win(1) == 1:
                             label = self.myfont.render("Player 1 wins!!", 1, RED)
                             self.screen.blit(label, (110,0))
@@ -222,8 +222,10 @@ class Connect4:
                             label = self.myfont.render("It's a Draw!!", 1, BLUE)
                             self.screen.blit(label, (110,0))
                             self.game_over = True
+                    else:
+                        break
                 else:
-                # Ask for Player 2 Input
+                    # Ask for Player 2 Input
                     posx = event.pos[0]
                     col = int(math.floor(posx / SQUARESIZE))
                     if self.place_coin(col, 2):
@@ -235,12 +237,21 @@ class Connect4:
                             label = self.myfont.render("It's a Draw!!", 1, RED)
                             self.screen.blit(label, (110,0))
                             self.game_over = True
+                    else:
+                        break
+                    
                 self.print_current_board()
-
-                self.turn += 1
-                self.turn = self.turn % 2
+                
+                if self.num_players==2:
+                    self.turn += 1
+                    self.turn = self.turn % 2
+                else:
+                    if not self.game_over: 
+                        print('before bot move')
+                        # Bot input
+            print('end of turn')            
             self.draw_board()
-            if self.game_over:
+            if self.game_over: 
                 pygame.time.wait(3000)
 
     def draw_coin(self, event):
@@ -261,7 +272,53 @@ class Connect4:
             self.event_handler()
             pygame.display.update()
 
+class Bot(Connect4):
+    def __init__(self):
+        self.diff = None
+        super().__init__(1)
+
+    def set_difficulty(self,difficulty: str):
+        '''
+        This function set the difficulty of the bot player
+            difficulty: a str can be equal to: easy,moderate,hard,extreme
+        '''
+        self.diff = difficulty.lower()
+
+    def set_current_board(self, curr_board: object):
+        '''
+        This function set the board state to be evaluated by the bot
+            board: the matrix containing the current state of the board
+        '''
+        self._Connect4__container = curr_board.copy()
+    
+    def random_move(self,curr_board: object) -> int:
+        '''
+        This function picks a random column and place a coin.
+            board: the matrix containing the current state of the board
+            Return: an int representing the column
+        '''
+        self.set_current_board(curr_board)
+        while True:
+            col = np.random.randint(0,7)
+            if self.place_coin(col,2):
+                return col
+
+    def place_4th_coin(self,curr_board: object) -> int:
+        '''
+        This function check if there is a winning move for either player and place the coin in that position.
+        It prioritize a winning move over stopping the win of the other player.
+            board: the matrix containing the current state of the board
+            Return: an int representing the column 
+        '''
+        for player in reversed(range(1,3)):
+            for col in range(7):
+                if self.place_coin(col,player):
+                    if self.check_win(player) == player:
+                        return col
+                    self.set_current_board(curr_board)
+#Bot_move                    
+
 
 if __name__ == "__main__":
-    game = Connect4()
+    game = Connect4(2)
     game.gameloop()
