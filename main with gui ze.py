@@ -249,6 +249,19 @@ class Connect4:
                     if not self.game_over: 
                         print('before bot move')
                         # Bot input
+                        bot = Bot()
+                        bot.set_difficulty('moderate')
+                        col = bot.bot_move(self.__container)
+                        if self.place_coin(col,2):
+                            if self.check_win(2) == 2:
+                                label = self.myfont.render("Player 2 wins!!", 1, YELLOW)
+                                self.screen.blit(label, (110,0))
+                                self.game_over = True
+                            if self.check_win(1) == 3:
+                                label = self.myfont.render("It's a Draw!!", 1, RED)
+                                self.screen.blit(label, (110,0))
+                                self.game_over = True
+
             print('end of turn')            
             self.draw_board()
             if self.game_over: 
@@ -316,7 +329,25 @@ class Bot(Connect4):
                     if self.check_win(player) == player:
                         return col
                     self.set_current_board(curr_board)
-#Bot_move                    
+#Bot_move
+    def bot_move(self,curr_board: object):
+        '''
+        This function uses the current state of the board and the difficulty level selected to make a move for the Bot player
+            board: the matrix containing the current state of the board
+        '''
+        if self.diff == 'easy': #random move
+            return self.random_move(curr_board)
+        elif self.diff == 'moderate': #identify 3 in a row and place it (priority to winning move)
+            res = self.place_4th_coin(curr_board)
+            if res != None:
+                print('Bot move: ',res)
+                return res
+            else:
+                print('RANDOM bot move: ')
+                return self.random_move(curr_board)
+        elif self.diff == 'hard': #Trained with Reinforcement learning
+            pass
+                  
 
 
 if __name__ == "__main__":
