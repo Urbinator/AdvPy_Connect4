@@ -20,7 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
+import argparse
+import sys
 import numpy as np
 import pygame
 from time import sleep
@@ -73,7 +74,7 @@ class Connect4:
         loops through event_handler() until winning condition is met
 
     '''
-    def __init__(self,num_players):
+    def __init__(self,num_players: int,bot_difficulty: str = 'hard'):
         '''
         Initialization function
             pygame: with a title "CONEECT 4"
@@ -93,6 +94,7 @@ class Connect4:
         self.myfont = pygame.font.SysFont("comicsansms", 75)
         self.game_over = False
         self.num_players = num_players
+        self.bot_difficulty = bot_difficulty
 
     def create_board(self):
         '''This function creates an empty Connect 4 matrix with zeros.'''
@@ -246,8 +248,7 @@ class Connect4:
                 else:
                     if not self.game_over: 
                         # Bot input
-                        bot = Bot()
-                        bot.set_difficulty('moderate')
+                        bot = Bot(self.bot_difficulty)
                         col = bot.bot_move(self.__container)
                         if self.place_coin(col,2):
                             if self.check_win(2) == 2:
@@ -294,16 +295,9 @@ class Bot(Connect4):
     #FIXME: ADD methods and update attributes
     '''
 
-    def __init__(self):
-        self.diff = None
+    def __init__(self,difficulty: str):
+        self.diff = difficulty
         super().__init__(1)
-
-    def set_difficulty(self,difficulty: str):
-        '''
-        This function set the difficulty of the bot player
-            difficulty: a str can be equal to: easy,moderate,hard,extreme
-        '''
-        self.diff = difficulty.lower()
 
     def set_current_board(self, curr_board: object):
         '''
@@ -338,9 +332,14 @@ class Bot(Connect4):
                         return col
                     self.set_current_board(curr_board)
 
-    def check_mistake(self):
-        '''This function check
+    def check_mistake(self,column: int,curr_board: object) -> bool:
+        '''This function check if a move would create a new winning opportunity for the opponent
+            column: int representing the column of the move to check
+            board: the matrix containing the current state of the board
+            Return: an bool indicating if the move is a mistake 
         '''
+
+        pass
                     
     def bot_move(self,curr_board: object):
         '''
@@ -369,5 +368,13 @@ class Bot(Connect4):
 
 
 if __name__ == "__main__":
-    game = Connect4(1)
+    parser = argparse.ArgumentParser(
+        description="This program takes 2 arguments:\n1)Number of Players\n2)The bot level (only required for single player)")
+    parser.add_argument('-number_of_players','-num', type=int, required=True, help='Select number of Players: 1 or 2')
+    parser.add_argument('-bot_difficulty','-diff', choices=['easy', 'moderate', 'hard'], required=False, help='Select bot difficulty in single player')
+    argument_list = parser.parse_args()
+    if argument_list.number_of_players == 1 and argument_list.bot_difficulty is None:
+        parser.error("-number_of_players = 1 requires -bot_difficulty/-diff")
+    
+    game = Connect4(argument_list.number_of_players,argument_list.bot_difficulty)
     game.gameloop()
