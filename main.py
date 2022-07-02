@@ -4,7 +4,7 @@ import numpy as np
 
 class Board:
     def __init__(self) -> None:
-        self.__container = np.zeros((6,7))
+        self.__container = np.zeros((6,7),int)
         
 
     def __is_not_full(self, column: int) -> bool:
