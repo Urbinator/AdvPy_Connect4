@@ -261,7 +261,7 @@ class Connect4:
                                 self.game_over = True           
             self.draw_board()
             if self.game_over: 
-                pygame.time.wait(3000)
+                pygame.time.wait(7000)
 
     def draw_coin(self, event):
         ''' Creates a new coin for the next player to use. 
@@ -325,6 +325,7 @@ class Bot(Connect4):
             board: the matrix containing the current state of the board
             Return: an int representing the column 
         '''
+        self.set_current_board(curr_board)
         for player in reversed(range(1,3)):
             for col in range(7):
                 if self.place_coin(col,player):
@@ -338,8 +339,13 @@ class Bot(Connect4):
             board: the matrix containing the current state of the board
             Return: an bool indicating if the move is a mistake 
         '''
-
-        pass
+        self.set_current_board(curr_board)
+        if self.place_coin(column,2):
+            for col in range(7):
+                if self.place_coin(col,1):
+                    if self.check_win(1) == 1:
+                        return True
+                    self.set_current_board(curr_board)
                     
     def bot_move(self,curr_board: object):
         '''
@@ -362,9 +368,11 @@ class Bot(Connect4):
                 print('Bot move: ',res)
                 return res
             else:
-                print('RANDOM bot move: ')
-                return self.random_move(curr_board)
-            pass
+                while True:
+                    rand_move = self.random_move(curr_board)
+                    if not self.check_mistake(rand_move,curr_board):
+                        print('RANDOM bot move: ')
+                        return rand_move
 
 
 if __name__ == "__main__":
