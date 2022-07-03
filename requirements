@@ -1,2 +1,4 @@
 python 3.10
-pygame
+pygame 2.1.2
+argparse 1.2.2
+numpy 1.22.4
